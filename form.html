@@ -1,0 +1,97 @@
+<html>
+<head>
+ <link rel="stylesheet" type="text/css" href="css/ionic.css">
+ <script type="text/javascript" src="js/jquery.js"></script>
+ <script type="text/javascript" src="js/geturi.js"></script>
+ <script type="text/javascript">
+ $(document).ready(function(){
+ var id = decodeURI(getUrlVars()["id"]);
+ var nombre = decodeURI(getUrlVars()["nombre"]);
+ var telefono = decodeURI(getUrlVars()["telefono"]);
+ var correo = decodeURI(getUrlVars()["correo"]);
+ $("#id").val(id);
+ $("#nombre").val(nombre);
+ $("#telefono").val(telefono);
+ $("#correo").val(correo);
+ $("#update").click(function(){
+ var id=$("#id").val();
+ var nombre=$("#nombre").val();
+ var telefono=$("#telefono").val();
+ var correo=$("#correo").val();
+ var dataString="id="+id+"&nombre="+nombre+"&telefono="+telefono+"&correo="+correo+"&update=";
+ $.ajax({
+ type: "POST",
+ url:"http://192.168.0.17/contactos/update.php",
+ data: dataString,
+ crossDomain: true,
+ cache: false,
+ beforeSend: function(){ $("#update").val('Connecting...');},
+ success: function(data){
+ if(data=="success")
+ {
+ alert("Updated");
+ $("#update").val("Update");
+ }
+ else if(data=="error")
+ {
+ alert("error");
+ }
+ }
+ });
+ 
+ });
+ $("#delete").click(function(){
+ var id=$("#id").val();
+ var dataString="id="+id+"&delete=";
+ $.ajax({
+ type: "GET",
+ url:"http://192.168.0.17/contactos/delete.php",
+ data: dataString,
+ crossDomain: true,
+ cache: false,
+ beforeSend: function(){ $("#delete").val('Connecting...');},
+ success: function(data){
+ if(data=="success")
+ {
+ alert("Deleted");
+ $("#delete").val("Delete");
+ }
+ else if(data=="error")
+ {
+ alert("error");
+ }
+ }
+ });
+ 
+ });
+ });
+ </script>
+</head>
+<body>
+ <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+ <a href="index.html" class="button button-clear">Insertar Contacto</a>
+ <h1 class="title">Actualizar Contacto</h1>
+ <a class="button button-clear" href="readjson.html">Contactos</a>
+ </div><br/><br/>
+ <div class="list">
+ <input type="hidden" id="id" value=""/>
+ <div class="item">
+ <label>Nombre</label>
+ <input type="text" id="nombre" value=""/>
+ </div>
+ <div class="item">
+ <label>Telefono</label>
+ <input type="text" id="telefono" value=""/>
+ </div>
+ <div class="item">
+ <label>Correo</label>
+ <input type="text" id="correo" value=""/>
+ </div>
+ <div class="item">
+ <input type="button" id="update" class="button button-block" value="Actualizar Contacto"/>
+ <input type="button" id="delete" class="button button-block" value="Borrar Contacto"/>
+ </div>
+ </div>
+ 
+</body>
+</html>

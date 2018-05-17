@@ -1,0 +1,30 @@
+<html>
+<head>
+ <link rel="stylesheet" type="text/css" href="css/ionic.css">
+ <script type="text/javascript" src="js/jquery.js"></script>
+ <script type="text/javascript">
+ $(document).ready(function()
+ {
+ var url="http://192.168.0.17/contactos/json.php";
+ $.getJSON(url,function(result){
+ console.log(result);
+ $.each(result, function(i, field){
+ var id=field.id;
+ var nombre=field.nombre;
+ var telefono=field.telefono;
+ var correo=field.correo;
+ $("#listview").append("<a class='item' href='form.html?id="+id+"&nombre="+nombre+"&telefono="+telefono+"&correo="+correo+"'>"+nombre+"</span><h2>" + telefono + " </h2><p>"+ correo +"</p></a>");
+ });
+ });
+ });
+ </script>
+</head>
+<body>
+ <div class="bar bar-header bar-positive" style="margin-bottom:80px;">
+ <a href="index.html" class="button button-clear">Insertar Contacto</a>
+ <h1 class="title">Contactos</h1>
+ </div><br/><br/>
+ <ul class="list" id="listview">
+ </ul>
+</body>
+</html>
